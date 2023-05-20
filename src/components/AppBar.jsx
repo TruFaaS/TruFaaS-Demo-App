@@ -2,6 +2,7 @@ import { Box, Link, Typography } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "./ToolBar";
 import PropTypes from "prop-types";
+import { CREATE_OPTION, INVOKE_OPTION } from "../constants";
 
 const rightLink = {
   fontSize: 16,
@@ -12,11 +13,11 @@ export default function AppBar({ page }) {
   let createColor = "common.white";
   let invokeColor = "common.white";
   switch (page) {
-    case "invoke":
+    case INVOKE_OPTION:
       createColor = "common.white";
       invokeColor = "secondary.main";
       break;
-    case "create":
+    case CREATE_OPTION:
       createColor = "secondary.main";
       invokeColor = "common.white";
       break;
@@ -36,7 +37,7 @@ export default function AppBar({ page }) {
               <Link
                 variant="h6"
                 underline="none"
-                color="secondary.main"
+                color="inherit"
                 href="/"
                 sx={{ fontSize: 25, textTransform: "unset" }}
               >
@@ -44,7 +45,7 @@ export default function AppBar({ page }) {
               </Link>
             </Box>
             <Box>
-              <Typography variant="h6" color={"common.white"} align="center">
+              <Typography variant="h6" color={"secondary.main"} align="center">
                 Demo
               </Typography>
             </Box>
@@ -72,6 +73,7 @@ export default function AppBar({ page }) {
           </Box>
         </Toolbar>
       </MuiAppBar>
+      <Toolbar />
     </>
   );
 }
