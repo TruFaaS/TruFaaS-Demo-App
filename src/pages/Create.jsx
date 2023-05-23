@@ -12,22 +12,31 @@ import {
 import FormBox from "../components/FormBox";
 import FormValidationMsg from "../components/FormValidationMsg";
 import { useState } from "react";
+import FileUploadTextField from "../components/FileUploadTextField";
+import CmdCard from "../components/CmdCard";
 
 function Create() {
-  const [lang, setLang] = useState("");
-
-  const handleChange = (event) => {
-    setLang(event.target.value);
-  };
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  const [lang, setLang] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
+
+  const handleFileUpload = (file) => {
+    setUploadedFile(file);
+  };
+
+  const handleLangSelection = (event) => {
+    setLang(event.target.value);
+  };
+
   const onSubmit = (data) => {
-    console.log(data.name); // You can access the name value here
+    console.log(data);
+    console.log(lang);
+    console.log(uploadedFile);
   };
 
   return (
@@ -38,17 +47,16 @@ function Create() {
           <TextField
             name="fn_name"
             label="Function Name"
-            {...register("name", {
+            {...register("fnName", {
               required: "This field is required",
             })}
-            placeholder="Enter your name"
+            placeholder="Enter function name"
             variant="outlined"
             color="secondary"
             required
             fullWidth
           />
-          {errors.name && <FormValidationMsg msg={errors.name.message} />}
-
+          {errors.fnName && <FormValidationMsg msg={errors.fnName.message} />}
           <FormControl required fullWidth sx={{ mt: "30px" }} color="secondary">
             <InputLabel id="select-lang-label">Language</InputLabel>
             <Select
@@ -56,7 +64,7 @@ function Create() {
               id="lang-value"
               value={lang}
               label="Language *"
-              onChange={handleChange}
+              onChange={handleLangSelection}
               fullWidth
             >
               <MenuItem value={"python"}>Python</MenuItem>
@@ -64,24 +72,10 @@ function Create() {
             </Select>
           </FormControl>
           {/* get file upload working */}
-          <TextField
-            sx={{ mt: "30px" }}
-            name="code"
-            label="Function Code"
-            {...register("code", {
-              required: "This field is required",
-            })}
-            placeholder="Enter your name"
-            variant="outlined"
-            color="secondary"
-            required
-            fullWidth
-            type="file"
-          />
-
-          {/* <Button type="submit" variant="contained" color="primary">
+          <FileUploadTextField onFileUpload={handleFileUpload} />
+          <Button type="submit" variant="contained" color="primary">
             Submit
-          </Button> */}
+          </Button>
         </form>
       </FormBox>
     </>
