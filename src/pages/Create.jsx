@@ -23,6 +23,7 @@ function Create() {
   } = useForm();
 
   const [lang, setLang] = useState("");
+  const [fnName, setFnName] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
 
   const handleFileUpload = (file) => {
@@ -31,6 +32,10 @@ function Create() {
 
   const handleLangSelection = (event) => {
     setLang(event.target.value);
+  };
+
+  const updateFnName = (event) => {
+    setFnName(event.target.value);
   };
 
   const onSubmit = (data) => {
@@ -54,10 +59,15 @@ function Create() {
             variant="outlined"
             color="secondary"
             required
-            fullWidth
+            sx={{ minWidth: "400px" }}
+            onChange={updateFnName}
           />
           {errors.fnName && <FormValidationMsg msg={errors.fnName.message} />}
-          <FormControl required fullWidth sx={{ mt: "30px" }} color="secondary">
+          <FormControl
+            required
+            sx={{ mt: "30px", minWidth: "400px" }}
+            color="secondary"
+          >
             <InputLabel id="select-lang-label">Language</InputLabel>
             <Select
               labelId="select-lang-label"
@@ -71,8 +81,10 @@ function Create() {
               <MenuItem value={"node"}>JavaScript</MenuItem>
             </Select>
           </FormControl>
-          {/* get file upload working */}
+
           <FileUploadTextField onFileUpload={handleFileUpload} />
+
+          <CmdCard fnName={fnName} env={lang} code={uploadedFile?.name} />
           <Button type="submit" variant="contained" color="primary">
             Submit
           </Button>

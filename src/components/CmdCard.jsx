@@ -1,0 +1,36 @@
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import PropTypes from "prop-types";
+
+export default function CmdCard({ fnName, env, code }) {
+  const functionName = fnName || "<fn-name>";
+  const environment = env || "<env>";
+  const codeValue = code || "<file-name>";
+
+  return (
+    <Box sx={{ mt: 4, mb: 4 }}>
+      <Card
+        variant="outlined"
+        style={{ height: "50px", borderColor: "#ff3366" }}
+      >
+        <CardContent style={{ textAlign: "center" }}>
+          <Typography variant="body1">
+            <span style={{ color: "#ff3366" }}>fission function create</span>{" "}
+            <span style={{ color: "#A9A9A9" }}>--name </span>
+            {functionName} <span style={{ color: "#A9A9A9" }}>--env </span>{" "}
+            {environment} <span style={{ color: "#A9A9A9" }}>--code </span>{" "}
+            {codeValue}
+          </Typography>
+        </CardContent>
+      </Card>
+    </Box>
+  );
+}
+
+CmdCard.propTypes = {
+  fnName: PropTypes.string.isRequired,
+  env: PropTypes.string.isRequired,
+  code: PropTypes.string.isRequired,
+};

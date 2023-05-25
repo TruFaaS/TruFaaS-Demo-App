@@ -12,7 +12,12 @@ function FormBox(props) {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Container maxWidth="sm">
+      <Container
+        // maxWidth="sm"
+        sx={{
+          width: "700px",
+        }}
+      >
         <Box sx={{ mt: 8, mb: 12 }}>
           <Paper
             background="light"

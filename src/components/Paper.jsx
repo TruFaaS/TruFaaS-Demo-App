@@ -9,6 +9,10 @@ const PaperRoot = styled(MuiPaper, {
   ...(padding && {
     padding: theme.spacing(1),
   }),
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  textAlign: "center",
 }));
 
 function Paper(props) {

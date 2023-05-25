@@ -29,13 +29,12 @@ const FileUploadTextField = ({ onFileUpload }) => {
 
       <label htmlFor="file-upload">
         <TextField
-          sx={{ mt: "30px" }}
+          sx={{ mt: "30px", minWidth: "400px" }}
           name="code"
           label="Function Code"
           variant="outlined"
           color="secondary"
           required
-          fullWidth
           type="text"
           onMouseDown={handleFileUpload}
           value={selectedFileName}
