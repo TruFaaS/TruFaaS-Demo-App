@@ -10,8 +10,8 @@ const PaperRoot = styled(MuiPaper, {
     padding: theme.spacing(1),
   }),
   display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
+  // justifyContent: "center",
+  // alignItems: "center",
   textAlign: "center",
 }));
 

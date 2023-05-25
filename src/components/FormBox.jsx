@@ -15,14 +15,14 @@ function FormBox(props) {
       <Container
         // maxWidth="sm"
         sx={{
-          width: "700px",
+          width: "750px",
         }}
       >
         <Box sx={{ mt: 8, mb: 12 }}>
           <Paper
             background="light"
             sx={{
-              py: { xs: 4, md: 8 },
+              py: { xs: 4, md: 6 },
               px: { xs: 3, md: 6 },
               background: "#fff5f8",
             }}
