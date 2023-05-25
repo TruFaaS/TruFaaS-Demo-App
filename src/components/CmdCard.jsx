@@ -10,7 +10,7 @@ export default function CmdCard({ fnName, env, code }) {
   const codeValue = code || "<file-name>";
 
   return (
-    <Box sx={{ mt: 4, mb: 4 }}>
+    <Box sx={{ mt: 4, mb: 2 }}>
       <Card
         variant="outlined"
         style={{ height: "50px", borderColor: "#ff3366" }}

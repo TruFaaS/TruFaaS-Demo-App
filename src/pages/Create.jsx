@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import AppBar from "../components/AppBar";
 import { CREATE_OPTION } from "../constants";
 import {
-  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -14,17 +13,19 @@ import FormValidationMsg from "../components/FormValidationMsg";
 import { useState } from "react";
 import FileUploadTextField from "../components/FileUploadTextField";
 import CmdCard from "../components/CmdCard";
+import FormButton from "../components/FormButton";
 
 function Create() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, submitting },
   } = useForm();
 
   const [lang, setLang] = useState("");
   const [fnName, setFnName] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [reqSent, setReqSent] = useState(false);
 
   const handleFileUpload = (file) => {
     setUploadedFile(file);
@@ -42,6 +43,7 @@ function Create() {
     console.log(data);
     console.log(lang);
     console.log(uploadedFile);
+    setReqSent(true);
   };
 
   return (
@@ -85,9 +87,15 @@ function Create() {
           <FileUploadTextField onFileUpload={handleFileUpload} />
 
           <CmdCard fnName={fnName} env={lang} code={uploadedFile?.name} />
-          <Button type="submit" variant="contained" color="primary">
-            Submit
-          </Button>
+          <FormButton
+            sx={{ mt: 3, mb: 2 }}
+            disabled={submitting || reqSent}
+            size="large"
+            color="secondary"
+            fullWidth
+          >
+            {submitting || reqSent ? "In progress…" : "Create Function"}
+          </FormButton>
         </form>
       </FormBox>
     </>
