@@ -15,7 +15,7 @@ import FormBox from "../components/FormBox";
 import FormValidationMsg from "../components/FormValidationMsg";
 import { useState } from "react";
 import FileUploadTextField from "../components/FileUploadTextField";
-import CmdCard from "../components/CmdCard";
+import CreateCmdCard from "../components/CreateCmdCard";
 import FormButton from "../components/FormButton";
 import CustomTypography from "../components/CustomTypography";
 
@@ -107,7 +107,7 @@ function Create() {
 
                   <FileUploadTextField onFileUpload={handleFileUpload} />
 
-                  <CmdCard
+                  <CreateCmdCard
                     fnName={fnName}
                     env={lang}
                     code={uploadedFile?.name}

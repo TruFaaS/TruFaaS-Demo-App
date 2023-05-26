@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 
-export default function CmdCard({ fnName, env, code }) {
+export default function CreateCmdCard({ fnName, env, code }) {
   const functionName = fnName || "<fn-name>";
   const environment = env || "<env>";
   const codeValue = code || "<file-name>";
@@ -29,7 +29,7 @@ export default function CmdCard({ fnName, env, code }) {
   );
 }
 
-CmdCard.propTypes = {
+CreateCmdCard.propTypes = {
   fnName: PropTypes.string.isRequired,
   env: PropTypes.string.isRequired,
   code: PropTypes.string.isRequired,
