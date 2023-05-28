@@ -19,6 +19,8 @@ import CreateCmdCard from "../components/CreateCmdCard";
 import FormButton from "../components/FormButton";
 import CustomTypography from "../components/CustomTypography";
 
+const CREATE_URL = "http://localhost:8000/create"
+
 function Create() {
   const {
     register,
@@ -29,7 +31,10 @@ function Create() {
   const [lang, setLang] = useState("");
   const [fnName, setFnName] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [statusCode, setStatusCode] = useState("");
+  const [statusText, setStatusText] = useState("");
   const [reqSent, setReqSent] = useState(false);
+  const [respBody, setRespBody] = useState("");
 
   const handleFileUpload = (file) => {
     setUploadedFile(file);
@@ -43,11 +48,43 @@ function Create() {
     setFnName(event.target.value);
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
-    console.log(lang);
-    console.log(uploadedFile);
+  const handleNewRequest = () => {
+    setStatusCode("");
+    setStatusText("");
     setReqSent(true);
+    setRespBody("");
+  };
+
+  const handleRequestComplete = () => {
+    setReqSent(false);
+  };
+
+  const onSubmit = async () => {
+    const formData = new FormData();
+    formData.append("fn_name", fnName);
+    formData.append("env", lang);
+    formData.append("code", uploadedFile);
+    handleNewRequest();
+    try {
+      const response = await fetch(CREATE_URL, {
+        method: "POST",
+        body: formData,
+      });
+
+      const responseBody = await response.text();
+      setRespBody(JSON.parse(responseBody));
+      setStatusCode(response.status);
+      setStatusText(response.statusText);
+
+      if (response.status == 201) {
+        console.log("Request sent successfully");
+      } else {
+        console.log("Request failed:", responseBody);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    handleRequestComplete();
   };
 
   return (
@@ -101,7 +138,7 @@ function Create() {
                       fullWidth
                     >
                       <MenuItem value={"python"}>Python</MenuItem>
-                      <MenuItem value={"node"}>JavaScript</MenuItem>
+                      <MenuItem value={"nodejs"}>JavaScript</MenuItem>
                     </Select>
                   </FormControl>
 
@@ -148,23 +185,20 @@ function Create() {
                   </Typography>
                   <Typography
                     variant="body1"
-                    color="success.main"
+                    color={statusCode === 200 ? "success.main" : "error.main"}
                     fontSize={17}
                   >
                     {" "}
-                    200 OK
+                    {statusCode + " " + statusText || ""}
                   </Typography>
                   <br />
                   <br />
+
                   <Typography variant="body1" fontWeight="bold">
                     Resp Body:
                   </Typography>
                   <br />
-                  <Typography variant="body1">
-                    Trust value created successfully !!
-                    <br />
-                    fn_name, created successfully !!
-                  </Typography>
+                  <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>{respBody.result}</Typography>
                 </Paper>
               </Grid>
             </Grid>
