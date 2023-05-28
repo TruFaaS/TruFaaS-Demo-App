@@ -18,7 +18,7 @@ function FormBox(props) {
           width: "750px",
         }}
       >
-        <Box sx={{ mt: 8, mb: 12 }}>
+        <Box sx={{ mb: 2, mt: 4 }}>
           <Paper
             background="light"
             sx={{

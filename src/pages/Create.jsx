@@ -1,25 +1,22 @@
 import { useForm } from "react-hook-form";
 import AppBar from "../components/AppBar";
-import { CREATE_OPTION } from "../constants";
+import { CREATE_OPTION, CREATE_URL } from "../constants";
 import {
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
-  Paper,
   Select,
   TextField,
-  Typography,
 } from "@mui/material";
 import FormBox from "../components/FormBox";
 import FormValidationMsg from "../components/FormValidationMsg";
 import { useState } from "react";
 import FileUploadTextField from "../components/FileUploadTextField";
-import CmdCard from "../components/CmdCard";
+import CreateCmdCard from "../components/CreateCmdCard";
 import FormButton from "../components/FormButton";
 import CustomTypography from "../components/CustomTypography";
-
-const CREATE_URL = "http://localhost:8000/create"
+import ResultBox from "../components/ResultsBox";
 
 function Create() {
   const {
@@ -66,6 +63,7 @@ function Create() {
     formData.append("code", uploadedFile);
     handleNewRequest();
     try {
+      console.log(CREATE_URL);
       const response = await fetch(CREATE_URL, {
         method: "POST",
         body: formData,
@@ -144,7 +142,7 @@ function Create() {
 
                   <FileUploadTextField onFileUpload={handleFileUpload} />
 
-                  <CmdCard
+                  <CreateCmdCard
                     fnName={fnName}
                     env={lang}
                     code={uploadedFile?.name}
@@ -164,45 +162,12 @@ function Create() {
           </FormBox>
         </Grid>
         <Grid item md={5}>
-          <FormBox>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <CustomTypography variant="h6" gutterBottom marked="center">
-                  Function Creation Result
-                </CustomTypography>
-              </Grid>
-              <Grid item xs={12}>
-                <Paper
-                  elevation={0}
-                  style={{
-                    backgroundColor: "white",
-                    padding: "20px",
-                    textAlign: "start",
-                  }}
-                >
-                  <Typography variant="body1" fontWeight="bold">
-                    Status Code:{" "}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    color={statusCode === 200 ? "success.main" : "error.main"}
-                    fontSize={17}
-                  >
-                    {" "}
-                    {statusCode + " " + statusText || ""}
-                  </Typography>
-                  <br />
-                  <br />
-
-                  <Typography variant="body1" fontWeight="bold">
-                    Resp Body:
-                  </Typography>
-                  <br />
-                  <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>{respBody.result}</Typography>
-                </Paper>
-              </Grid>
-            </Grid>
-          </FormBox>
+          <ResultBox
+            title="Function Creation Result"
+            statusCode={statusCode}
+            statusText={statusText}
+            result={respBody.result}
+          />
         </Grid>
       </Grid>
     </>
