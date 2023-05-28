@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import AppBar from "../components/AppBar";
-import { CREATE_OPTION } from "../constants";
+import { CREATE_OPTION, CREATE_URL } from "../constants";
 import {
   FormControl,
   Grid,
@@ -18,8 +18,6 @@ import FileUploadTextField from "../components/FileUploadTextField";
 import CreateCmdCard from "../components/CreateCmdCard";
 import FormButton from "../components/FormButton";
 import CustomTypography from "../components/CustomTypography";
-
-const CREATE_URL = "http://localhost:8000/create"
 
 function Create() {
   const {
@@ -66,6 +64,7 @@ function Create() {
     formData.append("code", uploadedFile);
     handleNewRequest();
     try {
+      console.log(CREATE_URL);
       const response = await fetch(CREATE_URL, {
         method: "POST",
         body: formData,
@@ -198,7 +197,12 @@ function Create() {
                     Resp Body:
                   </Typography>
                   <br />
-                  <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>{respBody.result}</Typography>
+                  <Typography
+                    variant="body1"
+                    style={{ whiteSpace: "pre-wrap" }}
+                  >
+                    {respBody.result}
+                  </Typography>
                 </Paper>
               </Grid>
             </Grid>
