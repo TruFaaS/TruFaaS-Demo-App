@@ -9,6 +9,8 @@ import FormValidationMsg from "../components/FormValidationMsg";
 import CustomButton from "../components/CustomButton";
 import InvokerCmdCard from "../components/InvokeCmdCard";
 import FormButton from "../components/FormButton";
+import ResultBox from "../components/ResultsBox";
+import HeaderBox from "../components/HeaderBox";
 export default function Invoke() {
   const {
     register,
@@ -18,6 +20,9 @@ export default function Invoke() {
 
   const [fnName, setFnName] = useState("");
   const [reqSent, setReqSent] = useState(false);
+  const [statusCode, setStatusCode] = useState("");
+  const [statusText, setStatusText] = useState("");
+  const [respBody, setRespBody] = useState("");
 
   const onSubmit = (data) => {
     console.log(data);
@@ -29,6 +34,11 @@ export default function Invoke() {
     setFnName(event.target.value);
   };
 
+  /*
+  avishka
+  1. get  the key pair from the api and populate the textfields
+  2. invocation and populate the result and headers, change colors if needed refer headerbox and resultbox
+  */
   return (
     <>
       <AppBar page={INVOKE_OPTION} />
@@ -93,12 +103,9 @@ export default function Invoke() {
                   <TextField
                     name="inv_prv_key"
                     label="Invoker Private Key"
-                    {...register("invPrvKey", {
-                      required: "This field is required",
-                    })}
+                    {...register("invPrvKey", {})}
                     variant="outlined"
                     color="secondary"
-                    required
                     sx={{ minWidth: "400px", marginBottom: "20px" }}
                     InputProps={{
                       readOnly: true,
@@ -110,12 +117,9 @@ export default function Invoke() {
                   <TextField
                     name="inv_pub_key"
                     label="Invoker Public Key"
-                    {...register("invPubKey", {
-                      required: "This field is required",
-                    })}
+                    {...register("invPubKey", {})}
                     variant="outlined"
                     color="secondary"
-                    required
                     sx={{ minWidth: "400px", marginBottom: "20px" }}
                     InputProps={{
                       readOnly: true,
@@ -140,7 +144,16 @@ export default function Invoke() {
             </Grid>
           </FormBox>
         </Grid>
-        <Grid item md={6}></Grid>
+        <Grid item md={6}>
+          <ResultBox
+            title="Function Invocation Result"
+            statusCode={statusCode}
+            statusText={statusText}
+            result={respBody.result}
+            macVerification={"true"}
+          />
+          <HeaderBox trustValue="true" macTag="skhsjsh" trufaasPubKey="skhs" />
+        </Grid>
       </Grid>
     </>
   );
