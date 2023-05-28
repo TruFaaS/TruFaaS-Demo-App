@@ -6,10 +6,8 @@ import {
   Grid,
   InputLabel,
   MenuItem,
-  Paper,
   Select,
   TextField,
-  Typography,
 } from "@mui/material";
 import FormBox from "../components/FormBox";
 import FormValidationMsg from "../components/FormValidationMsg";
@@ -18,6 +16,7 @@ import FileUploadTextField from "../components/FileUploadTextField";
 import CreateCmdCard from "../components/CreateCmdCard";
 import FormButton from "../components/FormButton";
 import CustomTypography from "../components/CustomTypography";
+import ResultBox from "../components/ResultsBox";
 
 function Create() {
   const {
@@ -163,50 +162,12 @@ function Create() {
           </FormBox>
         </Grid>
         <Grid item md={5}>
-          <FormBox>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <CustomTypography variant="h6" gutterBottom marked="center">
-                  Function Creation Result
-                </CustomTypography>
-              </Grid>
-              <Grid item xs={12}>
-                <Paper
-                  elevation={0}
-                  style={{
-                    backgroundColor: "white",
-                    padding: "20px",
-                    textAlign: "start",
-                  }}
-                >
-                  <Typography variant="body1" fontWeight="bold">
-                    Status Code:{" "}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    color={statusCode === 200 ? "success.main" : "error.main"}
-                    fontSize={17}
-                  >
-                    {" "}
-                    {statusCode + " " + statusText || ""}
-                  </Typography>
-                  <br />
-                  <br />
-
-                  <Typography variant="body1" fontWeight="bold">
-                    Resp Body:
-                  </Typography>
-                  <br />
-                  <Typography
-                    variant="body1"
-                    style={{ whiteSpace: "pre-wrap" }}
-                  >
-                    {respBody.result}
-                  </Typography>
-                </Paper>
-              </Grid>
-            </Grid>
-          </FormBox>
+          <ResultBox
+            title="Function Creation Result"
+            statusCode={statusCode}
+            statusText={statusText}
+            result={respBody.result}
+          />
         </Grid>
       </Grid>
     </>
