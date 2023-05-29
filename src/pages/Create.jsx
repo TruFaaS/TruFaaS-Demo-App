@@ -32,6 +32,7 @@ function Create() {
   const [statusText, setStatusText] = useState("");
   const [reqSent, setReqSent] = useState(false);
   const [respBody, setRespBody] = useState("");
+  const [fetchError, setFetchError] = useState("");
 
   const handleFileUpload = (file) => {
     setUploadedFile(file);
@@ -50,6 +51,7 @@ function Create() {
     setStatusText("");
     setReqSent(true);
     setRespBody("");
+    setFetchError("");
   };
 
   const handleRequestComplete = () => {
@@ -80,6 +82,7 @@ function Create() {
         console.log("Request failed:", responseBody);
       }
     } catch (error) {
+      setFetchError(error.toString() + ". Make sure the API server is up and running.");
       console.error("Error:", error);
     }
     handleRequestComplete();
@@ -167,6 +170,7 @@ function Create() {
             statusCode={statusCode}
             statusText={statusText}
             result={respBody.result}
+            error={fetchError}
           />
         </Grid>
       </Grid>
