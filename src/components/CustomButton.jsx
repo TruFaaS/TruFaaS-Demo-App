@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Button } from "@mui/material";
 import { ThemeContext } from "@emotion/react";
 
-const CustomButton = ({ name, disabled }) => {
+const CustomButton = ({ name, disabled, onClick }) => {
   return (
     <Button
       variant="contained"
@@ -15,6 +15,7 @@ const CustomButton = ({ name, disabled }) => {
         backgroundColor: "#ff3366",
         margin: "0px",
       }}
+      onClick={onClick}
     >
       {name}
     </Button>
@@ -24,6 +25,7 @@ const CustomButton = ({ name, disabled }) => {
 CustomButton.propTypes = {
   name: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 CustomButton.defaultProps = {

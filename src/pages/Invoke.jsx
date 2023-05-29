@@ -18,20 +18,71 @@ export default function Invoke() {
     formState: { errors, submitting },
   } = useForm();
 
+  const KEY_URL = "http://localhost:8000/generate";
+  const INVOKE_URL = "http://localhost:8000/invoke";
+
   const [fnName, setFnName] = useState("");
   const [reqSent, setReqSent] = useState(false);
   const [statusCode, setStatusCode] = useState("");
   const [statusText, setStatusText] = useState("");
   const [respBody, setRespBody] = useState("");
 
-  const onSubmit = (data) => {
-    console.log(data);
-
-    setReqSent(true);
-  };
+  
 
   const updateFnName = (event) => {
     setFnName(event.target.value);
+  };
+
+  const [invokerKeys, setInvokerKeys] = useState({
+    publicKey: "",
+    privateKey: "",
+  });
+
+  const fetchInvokerKeys = async () => {
+    try {
+      const response = await fetch(KEY_URL);
+      const data = await response.json();
+      setInvokerKeys({
+        publicKey: data["public_key"],
+        privateKey: data["private_key"],
+      });
+    } catch (error) {
+      console.error("Error fetching keys:", error);
+    }
+  };
+
+  const handleNewRequest = () => {
+    setStatusCode("");
+    setStatusText("");
+    setReqSent(true);
+    setRespBody("");
+  };
+
+  const handleRequestComplete = () => {
+    setReqSent(false);
+  };
+
+  const invokeFunction = async () => {
+    handleNewRequest();
+    try {
+      const response = await fetch(INVOKE_URL + "/" + fnName, {
+        headers: {
+          public_key: invokerKeys.publicKey,
+          private_key: invokerKeys.privateKey,
+        },
+      });
+      const data = await response.json();
+      setRespBody(data);
+      setStatusCode(response.status);
+      setStatusText(response.statusText);
+    } catch (error) {
+      console.error("Error invoking function:", error);
+    }
+    handleRequestComplete();
+  };
+
+  const onSubmit = () => {
+        invokeFunction()
   };
 
   /*
@@ -74,6 +125,7 @@ export default function Invoke() {
                   {errors.fnName && (
                     <FormValidationMsg msg={errors.fnName.message} />
                   )}
+
                   <Grid
                     container
                     alignItems="center"
@@ -96,14 +148,17 @@ export default function Invoke() {
                       </Typography>
                     </Grid>
                     <Grid item xs={3.3}>
-                      <CustomButton name="Generate" />
+                      <CustomButton
+                        name="Generate"
+                        onClick={fetchInvokerKeys}
+                      />
                     </Grid>
                   </Grid>
 
                   <TextField
                     name="inv_prv_key"
                     label="Invoker Private Key"
-                    {...register("invPrvKey", {})}
+                    value={invokerKeys.privateKey}
                     variant="outlined"
                     color="secondary"
                     sx={{ minWidth: "400px", marginBottom: "20px" }}
@@ -111,13 +166,10 @@ export default function Invoke() {
                       readOnly: true,
                     }}
                   />
-                  {errors.invPrvKey && (
-                    <FormValidationMsg msg={errors.invPrvKey.message} />
-                  )}
                   <TextField
                     name="inv_pub_key"
                     label="Invoker Public Key"
-                    {...register("invPubKey", {})}
+                    value={invokerKeys.publicKey}
                     variant="outlined"
                     color="secondary"
                     sx={{ minWidth: "400px", marginBottom: "20px" }}
@@ -145,14 +197,18 @@ export default function Invoke() {
           </FormBox>
         </Grid>
         <Grid item md={6}>
-          <ResultBox
+          {statusCode==200?(<><ResultBox
             title="Function Invocation Result"
             statusCode={statusCode}
             statusText={statusText}
-            result={respBody.result}
-            macVerification={"true"}
+            result={respBody["result"]}
           />
-          <HeaderBox trustValue="true" macTag="skhsjsh" trufaasPubKey="skhs" />
+          <HeaderBox trustValue={respBody["trust_verification"]} macTag={respBody["mac_tag"]} trufaasPubKey={respBody["ex_comp_pub_key"]}  /></>):(<ResultBox
+            title="Function Invocation Result"
+            statusCode={statusCode}
+            statusText={statusText}
+            result={respBody["result"]}
+          />)}
         </Grid>
       </Grid>
     </>
