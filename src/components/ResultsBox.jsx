@@ -29,7 +29,7 @@ function ResultBox({
                 textAlign: "start",
               }}
             >
-              {error == "" ? (
+              {error == undefined ? (
                 <>
                   <Typography variant="body1" fontWeight="bold">
                     Status Code:{" "}
@@ -101,7 +101,7 @@ function ResultBox({
 }
 
 ResultBox.propTypes = {
-  statusCode: PropTypes.string.isRequired,
+  statusCode: PropTypes.number.isRequired,
   statusText: PropTypes.string.isRequired,
   result: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,

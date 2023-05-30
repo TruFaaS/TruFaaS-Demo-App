@@ -1,6 +1,6 @@
 import { Grid, TextField, Typography } from "@mui/material";
 import AppBar from "../components/AppBar";
-import { INVOKE_OPTION } from "../constants";
+import { INVOKE_OPTION, KEY_URL, INVOKE_URL } from "../constants";
 import CustomTypography from "../components/CustomTypography";
 import FormBox from "../components/FormBox";
 import { useForm } from "react-hook-form";
@@ -18,16 +18,13 @@ export default function Invoke() {
     formState: { errors, submitting },
   } = useForm();
 
-  const KEY_URL = "http://localhost:8000/generate";
-  const INVOKE_URL = "http://localhost:8000/invoke";
-
   const [fnName, setFnName] = useState("");
   const [reqSent, setReqSent] = useState(false);
   const [statusCode, setStatusCode] = useState("");
   const [statusText, setStatusText] = useState("");
   const [respBody, setRespBody] = useState("");
-
-  
+  const [fetchInvocError, setFetchInvocError] = useState(undefined);
+  const [fetchKeyError, setFetchKeyError] = useState(undefined);
 
   const updateFnName = (event) => {
     setFnName(event.target.value);
@@ -47,6 +44,7 @@ export default function Invoke() {
         privateKey: data["private_key"],
       });
     } catch (error) {
+      setFetchKeyError(error);
       console.error("Error fetching keys:", error);
     }
   };
@@ -56,6 +54,8 @@ export default function Invoke() {
     setStatusText("");
     setReqSent(true);
     setRespBody("");
+    setFetchKeyError(undefined);
+    setFetchInvocError(undefined);
   };
 
   const handleRequestComplete = () => {
@@ -75,18 +75,19 @@ export default function Invoke() {
       setRespBody(data);
       setStatusCode(response.status);
       setStatusText(response.statusText);
+      console.log(respBody);
     } catch (error) {
+      setFetchInvocError(error);
       console.error("Error invoking function:", error);
     }
     handleRequestComplete();
   };
 
   const onSubmit = () => {
-        invokeFunction()
+    invokeFunction();
   };
 
   /*
-  avishka
   1. get  the key pair from the api and populate the textfields
   2. invocation and populate the result and headers, change colors if needed refer headerbox and resultbox
   */
@@ -154,7 +155,17 @@ export default function Invoke() {
                       />
                     </Grid>
                   </Grid>
-
+                  {fetchKeyError != undefined ? (
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="error.main"
+                    >
+                      OOPS! Failed to fetch keys. Make sure the API is running.
+                    </Typography>
+                  ) : (
+                    <></>
+                  )}
                   <TextField
                     name="inv_prv_key"
                     label="Invoker Private Key"
@@ -192,23 +203,47 @@ export default function Invoke() {
                     {submitting || reqSent ? "In progress…" : "Invoke Function"}
                   </FormButton>
                 </form>
+                {fetchInvocError != undefined ? (
+                  <Typography
+                    variant="body1"
+                    fontWeight="bold"
+                    color="error.main"
+                  >
+                    OOPS! Failed to invoke function. Make sure the API is
+                    running.
+                  </Typography>
+                ) : (
+                  <></>
+                )}
               </Grid>
             </Grid>
           </FormBox>
         </Grid>
         <Grid item md={6}>
-          {statusCode==200?(<><ResultBox
-            title="Function Invocation Result"
-            statusCode={statusCode}
-            statusText={statusText}
-            result={respBody["result"]}
-          />
-          <HeaderBox trustValue={respBody["trust_verification"]} macTag={respBody["mac_tag"]} trufaasPubKey={respBody["ex_comp_pub_key"]}  /></>):(<ResultBox
-            title="Function Invocation Result"
-            statusCode={statusCode}
-            statusText={statusText}
-            result={respBody["result"]}
-          />)}
+          {statusCode == 200 ? (
+            <>
+              <ResultBox
+                title="Function Invocation Result"
+                statusCode={statusCode}
+                statusText={statusText}
+                result={respBody["result"]}
+              />
+              <HeaderBox
+                trustValue={respBody["trust_verification"]}
+                macTag={respBody["mac_tag"]}
+                trufaasPubKey={respBody["ex_comp_public_key"]}
+              />
+            </>
+          ) : (
+            <>
+              <ResultBox
+                title="Function Invocation Result"
+                statusCode={statusCode}
+                statusText={statusText}
+                result={respBody["error_msg"]}
+              />
+            </>
+          )}
         </Grid>
       </Grid>
     </>
