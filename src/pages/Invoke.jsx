@@ -227,6 +227,7 @@ export default function Invoke() {
                 statusCode={statusCode}
                 statusText={statusText}
                 result={respBody["result"]}
+                macVerification={respBody["mac_verification"]}
               />
               <HeaderBox
                 trustValue={respBody["trust_verification"]}

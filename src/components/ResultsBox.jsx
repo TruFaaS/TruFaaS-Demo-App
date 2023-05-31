@@ -70,14 +70,14 @@ function ResultBox({
                         variant="body1"
                         style={{ whiteSpace: "pre-wrap" }}
                         color={
-                          macVerification === "true"
+                          macVerification === true
                             ? "success.main"
                             : "error.main"
                         }
                         fontWeight="bold"
                       >
                         {"  "}{" "}
-                        {macVerification === "true" ? "Successful" : "Failed"}
+                        {macVerification === true ? "Successful" : "Failed"}
                       </Typography>
                     </>
                   ) : null}
