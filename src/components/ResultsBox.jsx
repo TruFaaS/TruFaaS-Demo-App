@@ -62,6 +62,7 @@ function ResultBox({
                   {macVerification !== null ? (
                     <>
                       <br />
+                      <br />
 
                       <Typography variant="body1" fontWeight="bold">
                         MAC Verification:

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 export default function InvokerCmdCard({ fnName, pubKey }) {
   const functionName = fnName || "<fn-name>";
-  const publicKey = pubKey || "<pub-key>";
+  const publicKey = pubKey || "<invoker-public-key>";
 
   return (
     <Box sx={{ mt: 2, mb: 2 }}>
@@ -14,7 +14,9 @@ export default function InvokerCmdCard({ fnName, pubKey }) {
         variant="outlined"
         style={{ height: "70px", borderColor: "#ff3366" }}
       >
-        <CardContent style={{ textAlign: "center" }}>
+        <CardContent
+          style={{ textAlign: "center", height: "100%", overflow: "auto" }}
+        >
           {/* curl -X POST -H “Authorization: Bearer INSERT_TOKEN_HERE” \ -F
           “file=@./myFileLocation.txt” \ “http://www.exampleapi.com" */}
           <Typography variant="body1">

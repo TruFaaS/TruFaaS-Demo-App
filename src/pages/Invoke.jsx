@@ -191,7 +191,10 @@ export default function Invoke() {
                   {errors.invPubKey && (
                     <FormValidationMsg msg={errors.invPubKey.message} />
                   )}
-                  <InvokerCmdCard fnName={fnName} pubKey="" />
+                  <InvokerCmdCard
+                    fnName={fnName}
+                    pubKey={invokerKeys.privateKey}
+                  />
 
                   <FormButton
                     sx={{ mt: 2, mb: 2 }}
