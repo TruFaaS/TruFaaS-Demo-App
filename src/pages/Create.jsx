@@ -8,6 +8,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
 import FormBox from "../components/FormBox";
 import FormValidationMsg from "../components/FormValidationMsg";
@@ -32,6 +33,7 @@ function Create() {
   const [statusText, setStatusText] = useState("");
   const [reqSent, setReqSent] = useState(false);
   const [respBody, setRespBody] = useState("");
+  const [fetchError, setFetchError] = useState(undefined);
 
   const handleFileUpload = (file) => {
     setUploadedFile(file);
@@ -50,20 +52,20 @@ function Create() {
     setStatusText("");
     setReqSent(true);
     setRespBody("");
+    setFetchError(undefined);
   };
 
   const handleRequestComplete = () => {
     setReqSent(false);
   };
 
-  const onSubmit = async () => {
+  const handleCreateFunction = async () => {
     const formData = new FormData();
     formData.append("fn_name", fnName);
     formData.append("env", lang);
     formData.append("code", uploadedFile);
     handleNewRequest();
     try {
-      console.log(CREATE_URL);
       const response = await fetch(CREATE_URL, {
         method: "POST",
         body: formData,
@@ -80,9 +82,16 @@ function Create() {
         console.log("Request failed:", responseBody);
       }
     } catch (error) {
+      setFetchError(
+        error.toString() + ". Make sure the API server is up and running."
+      );
       console.error("Error:", error);
     }
     handleRequestComplete();
+  };
+
+  const onSubmit = async () => {
+    handleCreateFunction();
   };
 
   return (
@@ -157,6 +166,18 @@ function Create() {
                     {submitting || reqSent ? "In progress…" : "Create Function"}
                   </FormButton>
                 </form>
+                {fetchError != undefined ? (
+                  <Typography
+                    variant="body1"
+                    fontWeight="bold"
+                    color="error.main"
+                  >
+                    OOPS! Failed to create function. Make sure the API is
+                    running.
+                  </Typography>
+                ) : (
+                  <></>
+                )}
               </Grid>
             </Grid>
           </FormBox>

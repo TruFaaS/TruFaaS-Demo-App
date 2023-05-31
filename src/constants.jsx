@@ -6,3 +6,4 @@ export const HOME_OPTION = "home";
 const BASE_URL = "http://localhost:8000/";
 export const CREATE_URL = BASE_URL + "create";
 export const INVOKE_URL = BASE_URL + "invoke";
+export const KEY_URL = BASE_URL + "generate";
