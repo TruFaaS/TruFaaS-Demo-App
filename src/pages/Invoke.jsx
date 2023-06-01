@@ -115,12 +115,17 @@ export default function Invoke() {
                     label="Function Name"
                     {...register("fnName", {
                       required: "This field is required",
+                      pattern: {
+                        value: /^[a-z0-9]([-a-z0-9]*[a-z0-9])?$/,
+                        message:
+                          "Must only contain lowercase alphanumeric characters or '-', and must start and end with an alphanumeric character",
+                      },
                     })}
                     placeholder="Enter function name"
                     variant="outlined"
                     color="secondary"
                     required
-                    sx={{ minWidth: "400px", marginBottom: "20px" }}
+                    sx={{ minWidth: "400px" }}
                     onChange={updateFnName}
                   />
                   {errors.fnName && (
@@ -134,6 +139,7 @@ export default function Invoke() {
                     textAlign="start"
                     sx={{
                       width: "400px",
+                      marginTop: "30px",
                       marginBottom: "20px",
                       marginLeft: "auto",
                       marginRight: "auto",
