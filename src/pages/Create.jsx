@@ -119,6 +119,11 @@ function Create() {
                     label="Function Name"
                     {...register("fnName", {
                       required: "This field is required",
+                      pattern: {
+                        value: /^[a-z0-9]([-a-z0-9]*[a-z0-9])?$/,
+                        message:
+                          "Must only contain lowercase alphanumeric characters or '-', and must start and end with an alphanumeric character",
+                      },
                     })}
                     placeholder="Enter function name"
                     variant="outlined"
@@ -130,6 +135,7 @@ function Create() {
                   {errors.fnName && (
                     <FormValidationMsg msg={errors.fnName.message} />
                   )}
+                  {/* fix the  overflow error here*/}
                   <FormControl
                     required
                     sx={{ mt: "30px", minWidth: "400px" }}
