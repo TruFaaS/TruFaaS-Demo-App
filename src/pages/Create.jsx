@@ -149,6 +149,9 @@ function Create() {
                       label="Language *"
                       onChange={handleLangSelection}
                       fullWidth
+                      sx={{
+                        textAlign: "left",
+                      }}
                     >
                       <MenuItem value={"python"}>Python</MenuItem>
                       <MenuItem value={"nodejs"}>JavaScript</MenuItem>

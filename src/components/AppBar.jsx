@@ -46,7 +46,7 @@ export default function AppBar({ page }) {
             </Box>
             <Box>
               <Typography variant="h6" color={"secondary.main"} align="center">
-                Demo
+                Demo - Fission
               </Typography>
             </Box>
           </Box>
