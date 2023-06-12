@@ -28,15 +28,29 @@ export default function CreateCmdCard({ fnName, env, code }) {
 
       <Card
         variant="outlined"
-        style={{ height: "50px", borderColor: "#ff3366" }}
+        style={{
+          height: "50px",
+          backgroundColor: "#eeeeee",
+          borderColor: "#bbbbbb",
+        }}
       >
         <CardContent style={{ textAlign: "center" }}>
           <Typography variant="body1">
-            <span style={{ color: "#ff3366" }}>fission function create</span>{" "}
-            <span style={{ color: "#A9A9A9" }}>--name </span>
-            {functionName} <span style={{ color: "#A9A9A9" }}>--env </span>{" "}
-            {environment} <span style={{ color: "#A9A9A9" }}>--code </span>{" "}
-            {codeValue}
+            <span style={{ color: "#28282a", fontWeight: "500" }}>
+              fission function create
+            </span>{" "}
+            <span style={{ color: "#828282", fontWeight: "500" }}>--name </span>
+            <span style={{ color: "#28282a", fontWeight: "500" }}>
+              {functionName}
+            </span>{" "}
+            <span style={{ color: "#828282", fontWeight: "500" }}>--env </span>{" "}
+            <span style={{ color: "#28282a", fontWeight: "500" }}>
+              {environment}
+            </span>{" "}
+            <span style={{ color: "#828282", fontWeight: "500" }}>--code </span>{" "}
+            <span style={{ color: "#28282a", fontWeight: "500" }}>
+              {codeValue}
+            </span>
           </Typography>
         </CardContent>
       </Card>

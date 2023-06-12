@@ -11,8 +11,6 @@ const CustomButton = ({ name, disabled, onClick }) => {
       disableElevation
       sx={{
         borderRadius: ThemeContext.borderRadius, // Adjust the border radius as needed
-        color: "white",
-        backgroundColor: "#ff3366",
         margin: "0px",
       }}
       onClick={onClick}

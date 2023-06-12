@@ -20,13 +20,14 @@ export default function InvokerCmdCard({ fnName, pubKey }) {
       >
         <Grid item xs={8}>
           <Typography variant="body1" fontWeight="bold" fontSize={17}>
-            Fission-CLI Command
+            CURL Command
           </Typography>
         </Grid>
       </Grid>
       <Card
         variant="outlined"
-        style={{ height: "70px", borderColor: "#ff3366" }}
+        style={{ height: "70px", backgroundColor: "#eeeeee",
+        borderColor: "#bbbbbb", }}
       >
         <CardContent
           style={{ textAlign: "center", height: "100%", overflow: "auto" }}
@@ -34,14 +35,13 @@ export default function InvokerCmdCard({ fnName, pubKey }) {
           {/* curl -X POST -H “Authorization: Bearer INSERT_TOKEN_HERE” \ -F
           “file=@./myFileLocation.txt” \ “http://www.exampleapi.com" */}
           <Typography variant="body1">
-            <span style={{ color: "#ff3366" }}>curl </span>{" "}
-            <span style={{ color: "#A9A9A9" }}>-H </span>
-            &ldquo;X-invoker-publick-key: {publicKey}&rdquo;{"  "}
-            <span style={{ color: "#A9A9A9" }}> \ </span>
+            <span style={{ color: "#28282a", fontWeight: "500" }}>curl </span>{" "}
+            <span style={{ color: "#828282", fontWeight: "500" }}>-H </span>
+            &ldquo;X-Invoker-Public-Key: {publicKey}&rdquo;{"  "}
             <br />
-            <span style={{ color: "#ff3366" }}>
+            <span style={{ color: "#28282a", fontWeight: "500" }}>
               {" "}
-              &ldquo;http://127.0.0.1:8080/{functionName}&rdquo;
+              http://127.0.0.1:8080/{functionName}
             </span>
             <br />
           </Typography>

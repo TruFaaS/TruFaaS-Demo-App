@@ -151,7 +151,7 @@ export default function Invoke() {
                         fontWeight="bold"
                         fontSize={18}
                       >
-                        ECDH key Generation
+                        Key Generation
                       </Typography>
                     </Grid>
                     <Grid item xs={3.3}>
