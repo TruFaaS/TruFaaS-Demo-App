@@ -53,7 +53,6 @@ function HeaderBox({ trustValue, macTag, trufaasPubKey }) {
               <br />
               <Typography
                 variant="body1"
-                textTransform="uppercase"
                 style={{ overflowWrap: "break-word" }}
               >
                 {macTag}
@@ -66,7 +65,6 @@ function HeaderBox({ trustValue, macTag, trufaasPubKey }) {
               <br />
               <Typography
                 variant="body1"
-                textTransform="uppercase"
                 style={{ overflowWrap: "break-word" }}
               >
                 {trufaasPubKey}
