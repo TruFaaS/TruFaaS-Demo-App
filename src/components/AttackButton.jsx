@@ -2,11 +2,11 @@ import PropTypes from "prop-types";
 import { Button } from "@mui/material";
 import { ThemeContext } from "@emotion/react";
 
-const CustomButton = ({ name, disabled, onClick }) => {
+const AttackButton = ({ name, disabled, onClick }) => {
   return (
     <Button
-      variant="contained"
-      color="secondary"
+      variant="outlined"
+      color="error"
       disabled={disabled}
       disableElevation
       sx={{
@@ -20,14 +20,14 @@ const CustomButton = ({ name, disabled, onClick }) => {
   );
 };
 
-CustomButton.propTypes = {
+AttackButton.propTypes = {
   name: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
-CustomButton.defaultProps = {
+AttackButton.defaultProps = {
   disabled: false,
 };
 
-export default CustomButton;
+export default AttackButton;

@@ -153,8 +153,8 @@ function Create() {
                         textAlign: "left",
                       }}
                     >
+                      <MenuItem value={"nodejs"}>NodeJS</MenuItem>
                       <MenuItem value={"python"}>Python</MenuItem>
-                      <MenuItem value={"nodejs"}>JavaScript</MenuItem>
                     </Select>
                   </FormControl>
 

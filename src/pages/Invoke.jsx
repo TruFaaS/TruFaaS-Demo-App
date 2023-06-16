@@ -1,6 +1,6 @@
-import { Grid, TextField, Typography } from "@mui/material";
+import { Box, Grid, TextField, Typography } from "@mui/material";
 import AppBar from "../components/AppBar";
-import { INVOKE_OPTION, KEY_URL, INVOKE_URL } from "../constants";
+import { INVOKE_OPTION, KEY_URL, INVOKE_URL, ATTACK_URL } from "../constants";
 import CustomTypography from "../components/CustomTypography";
 import FormBox from "../components/FormBox";
 import { useForm } from "react-hook-form";
@@ -11,6 +11,7 @@ import InvokerCmdCard from "../components/InvokeCmdCard";
 import FormButton from "../components/FormButton";
 import ResultBox from "../components/ResultsBox";
 import HeaderBox from "../components/HeaderBox";
+import AttackButton from "../components/AttackButton";
 export default function Invoke() {
   const {
     register,
@@ -25,6 +26,7 @@ export default function Invoke() {
   const [respBody, setRespBody] = useState("");
   const [fetchInvocError, setFetchInvocError] = useState(undefined);
   const [fetchKeyError, setFetchKeyError] = useState(undefined);
+  const [attackMsg, setAttackMsg] = useState("");
 
   const updateFnName = (event) => {
     setFnName(event.target.value);
@@ -46,6 +48,26 @@ export default function Invoke() {
     } catch (error) {
       setFetchKeyError(error);
       console.error("Error fetching keys:", error);
+    }
+  };
+
+  const runAttack = async () => {
+    try {
+      if (!fnName) {
+        throw new Error("Function Name is Empty");
+      }
+
+      await fetch(ATTACK_URL + "/" + fnName);
+      setAttackMsg("Mock Attack Done!!");
+      setTimeout(() => {
+        setAttackMsg('');
+      }, 2000); 
+    } catch (error) {
+      setAttackMsg(error.toString());
+      console.error("Error during mock:", error);
+      setTimeout(() => {
+        setAttackMsg('');
+      }, 2000); 
     }
   };
 
@@ -151,7 +173,7 @@ export default function Invoke() {
                         fontWeight="bold"
                         fontSize={18}
                       >
-                        ECDH key Generation
+                        Key Generation
                       </Typography>
                     </Grid>
                     <Grid item xs={3.3}>
@@ -199,7 +221,7 @@ export default function Invoke() {
                   )}
                   <InvokerCmdCard
                     fnName={fnName}
-                    pubKey={invokerKeys.privateKey}
+                    pubKey={invokerKeys.publicKey}
                   />
 
                   <FormButton
@@ -224,6 +246,10 @@ export default function Invoke() {
                 ) : (
                   <></>
                 )}
+                <Box height={10} />
+                <AttackButton name="Mock Attack!" onClick={runAttack} />
+                <Box height={10} />
+                <Typography style={{ fontWeight: 'bold' }}>{attackMsg}</Typography>
               </Grid>
             </Grid>
           </FormBox>
