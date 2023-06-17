@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Button } from "@mui/material";
 import { ThemeContext } from "@emotion/react";
 
-const AttackButton = ({ name, disabled, onClick }) => {
+const AttackButton = ({ name, disabled }) => {
   return (
     <Button
       variant="outlined"
@@ -13,7 +13,7 @@ const AttackButton = ({ name, disabled, onClick }) => {
         borderRadius: ThemeContext.borderRadius, // Adjust the border radius as needed
         margin: "0px",
       }}
-      onClick={onClick}
+      type="submit"
     >
       {name}
     </Button>
@@ -23,7 +23,6 @@ const AttackButton = ({ name, disabled, onClick }) => {
 AttackButton.propTypes = {
   name: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
-  onClick: PropTypes.func,
 };
 
 AttackButton.defaultProps = {

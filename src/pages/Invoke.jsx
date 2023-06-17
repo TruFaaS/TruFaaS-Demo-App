@@ -13,13 +13,12 @@ import ResultBox from "../components/ResultsBox";
 import HeaderBox from "../components/HeaderBox";
 import AttackButton from "../components/AttackButton";
 export default function Invoke() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, submitting },
-  } = useForm();
+  const form1 = useForm();
+  const form2 = useForm();
 
   const [fnName, setFnName] = useState("");
+  const [attackFnName, setAttackFnName] = useState("");
+
   const [reqSent, setReqSent] = useState(false);
   const [statusCode, setStatusCode] = useState("");
   const [statusText, setStatusText] = useState("");
@@ -30,6 +29,10 @@ export default function Invoke() {
 
   const updateFnName = (event) => {
     setFnName(event.target.value);
+  };
+
+  const updateAttackFnName = (event) => {
+    setAttackFnName(event.target.value);
   };
 
   const [invokerKeys, setInvokerKeys] = useState({
@@ -53,21 +56,21 @@ export default function Invoke() {
 
   const runAttack = async () => {
     try {
-      if (!fnName) {
+      if (!attackFnName) {
         throw new Error("Function Name is Empty");
       }
 
-      await fetch(ATTACK_URL + "/" + fnName);
+      await fetch(ATTACK_URL + "/" + attackFnName);
       setAttackMsg("Mock Attack Done!!");
       setTimeout(() => {
-        setAttackMsg('');
-      }, 2000); 
+        setAttackMsg("");
+      }, 2000);
     } catch (error) {
       setAttackMsg(error.toString());
       console.error("Error during mock:", error);
       setTimeout(() => {
-        setAttackMsg('');
-      }, 2000); 
+        setAttackMsg("");
+      }, 2000);
     }
   };
 
@@ -105,10 +108,14 @@ export default function Invoke() {
     handleRequestComplete();
   };
 
-  const onSubmit = () => {
+  const onSubmitInvocation = () => {
     invokeFunction();
   };
-
+  const onSubmitAttack = () => {
+    setReqSent(true);
+    runAttack();
+    setReqSent(false);
+  };
   /*
   1. get  the key pair from the api and populate the textfields
   2. invocation and populate the result and headers, change colors if needed refer headerbox and resultbox
@@ -131,11 +138,11 @@ export default function Invoke() {
                 </CustomTypography>
               </Grid>
               <Grid item xs={12}>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={form1.handleSubmit(onSubmitInvocation)}>
                   <TextField
                     name="fn_name"
                     label="Function Name"
-                    {...register("fnName", {
+                    {...form1.register("fnName", {
                       required: "This field is required",
                       pattern: {
                         value: /^[a-z0-9]([-a-z0-9]*[a-z0-9])?$/,
@@ -150,8 +157,8 @@ export default function Invoke() {
                     sx={{ minWidth: "400px" }}
                     onChange={updateFnName}
                   />
-                  {errors.fnName && (
-                    <FormValidationMsg msg={errors.fnName.message} />
+                  {form1.errors?.fnName && (
+                    <FormValidationMsg msg={form1.errors?.fnName.message} />
                   )}
 
                   <Grid
@@ -216,8 +223,8 @@ export default function Invoke() {
                       readOnly: true,
                     }}
                   />
-                  {errors.invPubKey && (
-                    <FormValidationMsg msg={errors.invPubKey.message} />
+                  {form1.errors?.invPubKey && (
+                    <FormValidationMsg msg={form1.errors?.invPubKey.message} />
                   )}
                   <InvokerCmdCard
                     fnName={fnName}
@@ -226,12 +233,14 @@ export default function Invoke() {
 
                   <FormButton
                     sx={{ mt: 2, mb: 2 }}
-                    disabled={submitting || reqSent}
+                    disabled={form1.submitting || reqSent}
                     size="large"
                     color="secondary"
                     fullWidth
                   >
-                    {submitting || reqSent ? "In progress…" : "Invoke Function"}
+                    {form1.submitting || reqSent
+                      ? "In progress…"
+                      : "Invoke Function"}
                   </FormButton>
                 </form>
                 {fetchInvocError != undefined ? (
@@ -246,10 +255,56 @@ export default function Invoke() {
                 ) : (
                   <></>
                 )}
-                <Box height={10} />
-                <AttackButton name="Mock Attack!" onClick={runAttack} />
-                <Box height={10} />
-                <Typography style={{ fontWeight: 'bold' }}>{attackMsg}</Typography>
+              </Grid>
+            </Grid>
+          </FormBox>
+          <FormBox>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <CustomTypography
+                  variant="h6"
+                  fontSize={20}
+                  gutterBottom
+                  marked="center"
+                >
+                  Mock Attack Scenario
+                </CustomTypography>
+              </Grid>
+              <br />
+              <Grid item xs={12}>
+                <form onSubmit={form2.handleSubmit(onSubmitAttack)}>
+                  <TextField
+                    name="attack_fn_name"
+                    label="Function Name"
+                    {...form2.register("attackfnName", {
+                      required: "This field is required",
+                      pattern: {
+                        value: /^[a-z0-9]([-a-z0-9]*[a-z0-9])?$/,
+                        message:
+                          "Must only contain lowercase alphanumeric characters or '-', and must start and end with an alphanumeric character",
+                      },
+                    })}
+                    placeholder="Enter function name"
+                    variant="outlined"
+                    color="secondary"
+                    required
+                    sx={{ minWidth: "400px" }}
+                    onChange={updateAttackFnName}
+                  />
+                  {form2.errors?.fnName && (
+                    <FormValidationMsg
+                      msg={form2.errors?.attackfnName.message}
+                    />
+                  )}
+
+                  <Box height={20} />
+
+                  <AttackButton name="Mock Attack!" />
+                  <Box height={20} />
+                  <Typography style={{ fontWeight: "bold" }}>
+                    {attackMsg}
+                  </Typography>
+                </form>
               </Grid>
             </Grid>
           </FormBox>
