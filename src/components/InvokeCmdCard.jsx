@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 export default function InvokerCmdCard({ fnName, pubKey }) {
   const functionName = fnName || "{fn-name}";
-  const publicKey = pubKey || "{invoker-public-key}";
+  // const publicKey = pubKey || "{invoker-public-key}";
 
   return (
     <Box sx={{ mt: 2, mb: 2 }}>
@@ -26,8 +26,11 @@ export default function InvokerCmdCard({ fnName, pubKey }) {
       </Grid>
       <Card
         variant="outlined"
-        style={{ height: "70px", backgroundColor: "#eeeeee",
-        borderColor: "#bbbbbb", }}
+        style={{
+          height: "70px",
+          backgroundColor: "#eeeeee",
+          borderColor: "#bbbbbb",
+        }}
       >
         <CardContent
           style={{ textAlign: "center", height: "100%", overflow: "auto" }}
@@ -36,8 +39,10 @@ export default function InvokerCmdCard({ fnName, pubKey }) {
           “file=@./myFileLocation.txt” \ “http://www.exampleapi.com" */}
           <Typography variant="body1">
             <span style={{ color: "#28282a", fontWeight: "500" }}>curl </span>{" "}
-            <span style={{ color: "#828282", fontWeight: "500" }}>-H </span>
-            &ldquo;X-Invoker-Public-Key: {publicKey}&rdquo;{"  "}
+            {pubKey && (
+              <span style={{ color: "#828282", fontWeight: "500" }}>-H </span>
+            )}
+            {pubKey && <span>{"X-Invoker-Public-Key: " + pubKey}</span>}
             <br />
             <span style={{ color: "#28282a", fontWeight: "500" }}>
               {" "}
